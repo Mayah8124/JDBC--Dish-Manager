@@ -50,8 +50,9 @@ public class Dish {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Dish dish)) return false;
-        return id == dish.id && Objects.equals(name, dish.name) && Objects.equals(dishType, dish.dishType) && Objects.equals(ingredients, dish.ingredients);
+        if (o == null || getClass() != o.getClass()) return false;
+        Dish dish = (Dish) o;
+        return id == dish.id && Objects.equals(name, dish.name) && dishType == dish.dishType && Objects.equals(ingredients, dish.ingredients);
     }
 
     @Override
