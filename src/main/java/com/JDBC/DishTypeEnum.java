@@ -1,7 +1,6 @@
 package com.JDBC;
 
-public class DishTypeEnum {
-    public enum dishType {
-        START, MAIN, DESSERT
-    }
+public enum DishTypeEnum {
+    START, MAIN, DESSERT
+
 }
