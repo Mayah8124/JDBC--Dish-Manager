@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataRetriever {
@@ -50,8 +51,38 @@ public class DataRetriever {
         return dish;
     }
 
-    List<Ingredient> findIngredients(int page, int size) {
-        throw new RuntimeException("Not implemented yet");
+    public List<Ingredient> findIngredients(int page, int size) {
+        List<Ingredient> ingredientList = new ArrayList<>();
+
+        String sql = """
+                SELECT
+                    i.id AS ingredient_id,
+                    i.name AS ingredient_name,
+                    i.price AS ingredient_price,
+                    i.category AS ingredient_category
+                FROM Ingredient i ORDER BY i.id LIMIT ? OFFSET ?;
+                """;
+
+        try (Connection conn = dbConnection.getConnection()){
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, page);
+            ps.setInt(2, size);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int ingredient_id = rs.getInt("ingredient_id");
+                    String ingredient_nom = rs.getString("ingredient_nom");
+                    Double ingredient_price = rs.getDouble("ingredient_price");
+                    int ingredient_category = rs.getInt("ingredient_category");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error while  " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return ingredientList;
     }
 
     List<Ingredient> createIngredients(List<Ingredient> newIngredients) {
