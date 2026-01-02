@@ -138,7 +138,84 @@ public class DataRetriever {
     }
 
     Dish saveDish(Dish dishToSave) {
-        throw new RuntimeException("Not implemented yet");
+        String checkDishSQL = """
+                SELECT COUNT(*)
+                    FROM Dish
+                    WHERE id = ?;
+                """;
+
+        String insertDishSQL = """
+                INSERT INTO Dish(id , name , dish_type)
+                    VALUES (?, ?, ?);
+                """;
+
+        String updateDishSQL = """
+                UPDATE Dish
+                    SET name = ?, dish_type = ?
+                    WHERE id = ?;
+                """;
+
+        String dissociateIngredientSQL = """
+                UPDATE Ingredient
+                    SET dish_id = NULL
+                    WHERE id = ?;
+                """;
+
+        String associateIngredientSQL = """
+                UPDATE Ingredient
+                    SET dish_id = ?
+                    WHERE id = ?;
+                """;
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (
+                    PreparedStatement checkStmnt = conn.prepareStatement(checkDishSQL);
+                    PreparedStatement insertStmnt = conn.prepareStatement(insertDishSQL);
+                    PreparedStatement updateStmnt = conn.prepareStatement(updateDishSQL);
+                    PreparedStatement dissociateStmnt = conn.prepareStatement(dissociateIngredientSQL);
+                    PreparedStatement associateStmnt = conn.prepareStatement(associateIngredientSQL)
+                    ) {
+                checkStmnt.setInt(1, dishToSave.getId());
+                ResultSet rs = checkStmnt.executeQuery();
+                rs.next();
+
+                boolean exists = rs.getInt(1) > 0;
+
+                if (!exists) {
+                    insertStmnt.setInt(1, dishToSave.getId());
+                    insertStmnt.setString(2, dishToSave.getName());
+                    insertStmnt.setString(3, dishToSave.getDishType());
+                    insertStmnt.executeUpdate();
+                } else {
+                    updateStmnt.setString(1, dishToSave.getName());
+                    updateStmnt.setString(2, dishToSave.getDishType());
+                    updateStmnt.setInt(3, dishToSave.getId());
+                    updateStmnt.executeUpdate();
+                }
+
+                dissociateStmnt.setInt(1, dishToSave.getId());
+                dissociateStmnt.executeUpdate();
+
+                if (dishToSave.getIngredients() != null) {
+                    for (Ingredient ingredient : dishToSave.getIngredients()) {
+                        associateStmnt.setInt(1, dishToSave.getId());
+                        associateStmnt.setInt(2, ingredient.getId());
+                        associateStmnt.executeUpdate();
+                    }
+                }
+
+                conn.commit();
+
+                return dishToSave;
+            } catch (RuntimeException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while save ingredient : " + e.getMessage());
+        }
     }
 
     List<Dish> findDishsByIngredientName(String ingredientName) {
