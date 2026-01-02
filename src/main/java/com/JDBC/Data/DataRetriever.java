@@ -86,7 +86,55 @@ public class DataRetriever {
     }
 
     List<Ingredient> createIngredients(List<Ingredient> newIngredients) {
-        throw new RuntimeException("Not implemented yet");
+        String checkIngredientSQL = """
+                    SELECT COUNT(*)
+                        FROM Ingredient
+                        Where name = ? AND dish_name = ?;
+                """;
+
+        String insertNewIngredientSQL = """
+                    INSERT INTO Ingredient(id , name , price , category) 
+                    VALUES (?, ?, ?, ?);
+                """;
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (
+                    PreparedStatement checkStmnt = conn.prepareStatement(checkIngredientSQL);
+                    PreparedStatement insertStmnt = conn.prepareStatement(insertNewIngredientSQL)
+                    ) {
+                for (Ingredient ingredient : newIngredients) {
+                    checkStmnt.setString(1, ingredient.getName());
+                    checkStmnt.setInt(2, ingredient.getId());
+
+                    ResultSet rs = checkStmnt.executeQuery();
+                    rs.next();
+
+                    if (rs.getInt(1) > 0) {
+                        throw new RuntimeException("Ingredient already exists : " + ingredient.getName());
+                    };
+
+                    insertStmnt.setInt(1, ingredient.getId());
+                    insertStmnt.setString(2, ingredient.getName());
+                    insertStmnt.setBigDecimal(3, ingredient.getPrice());
+                    insertStmnt.setString(4, ingredient.getCategory());
+                    insertStmnt.setInt(5, ingredient.getDish());
+
+                    insertStmnt.executeUpdate();
+                }
+
+                conn.commit();
+
+                return newIngredients;
+
+            } catch (RuntimeException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while create ingredient : " + e.getMessage());
+        }
     }
 
     Dish saveDish(Dish dishToSave) {
