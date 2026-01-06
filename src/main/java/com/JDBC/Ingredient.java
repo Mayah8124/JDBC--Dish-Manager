@@ -9,7 +9,7 @@ public class Ingredient {
     private CategoryEnum category;
     private Dish dish;
 
-    public Ingredient(CategoryEnum category, Dish dish, int id, String name, Double price) {
+    public Ingredient(int id, String name, Double price, CategoryEnum category, Dish dish) {
         this.category = category;
         this.dish = dish;
         this.id = id;

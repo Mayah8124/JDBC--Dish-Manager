@@ -9,7 +9,7 @@ public class Dish {
     private DishTypeEnum dishType;
     private List<Ingredient> ingredients;
 
-    public Dish(DishTypeEnum dishType, String name, List<Ingredient> ingredients, int id) {
+    public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredients) {
         this.dishType = dishType;
         this.name = name;
         this.ingredients = ingredients;

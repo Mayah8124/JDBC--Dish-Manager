@@ -85,7 +85,7 @@ public class DataRetriever {
         return ingredientList;
     }
 
-    List<Ingredient> createIngredients(List<Ingredient> newIngredients) {
+    public List<Ingredient> createIngredients(List<Ingredient> newIngredients) {
         String checkIngredientSQL = """
                     SELECT COUNT(*)
                         FROM Ingredient
@@ -137,7 +137,7 @@ public class DataRetriever {
         }
     }
 
-    Dish saveDish(Dish dishToSave) {
+    public Dish saveDish(Dish dishToSave) {
         String checkDishSQL = """
                 SELECT COUNT(*)
                     FROM Dish
@@ -218,7 +218,7 @@ public class DataRetriever {
         }
     }
 
-    List<Dish> findDishsByIngredientName(String ingredientName) {
+    public List<Dish> findDishsByIngredientName(String ingredientName) {
         List <Dish> dishList = new ArrayList<>();
 
         String sql = """
@@ -251,7 +251,7 @@ public class DataRetriever {
         return dishList;
     }
 
-    List<Ingredient> findIngredientsByCriteria(String IngredientName, CategoryEnum Category, String dishName, int page, int size) {
+    public List<Ingredient> findIngredientsByCriteria(String IngredientName, CategoryEnum Category, String dishName, int page, int size) {
         List <Ingredient> ingredientList = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
