@@ -219,7 +219,36 @@ public class DataRetriever {
     }
 
     List<Dish> findDishsByIngredientName(String ingredientName) {
-        throw new RuntimeException("Not implemented yet");
+        List <Dish> dishList = new ArrayList<>();
+
+        String sql = """
+                    SELECT DISTINCT
+                                d.id AS dish_id,
+                                d.name AS dish_name,
+                                d.dish_type
+                            FROM Dish d
+                            JOIN Ingredient i ON d.id = i.dish_id
+                            WHERE i.name ILIKE ?;
+                """;
+
+        try (Connection conn = dbConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1,"%" + ingredientName + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Dish dish = new Dish();
+                dish.setId(rs.getInt("dish_id"));
+                dish.setName(rs.getString("dish_name"));
+                dish.setDishType(rs.getString("dish_type"));
+
+                dishList.add(dish);
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException("error while searching dishes : ", e);
+        }
+        return dishList;
     }
 
     List<Ingredient> findIngredientsByCriteria(String IngredientName, CategoryEnum Category, String dishName, int page, int size) {
