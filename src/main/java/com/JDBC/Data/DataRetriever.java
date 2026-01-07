@@ -304,7 +304,7 @@ public class DataRetriever {
                 ingredient.setId(rs.getInt("id"));
                 ingredient.setName(rs.getString("name"));
                 ingredient.setPrice(rs.getBigDecimal("price"));
-                ingredient.setCategory(rs.getString("category"));
+                ingredient.setCategory(CategoryEnum.valueOf(rs.getString("category")));
 
                 ingredientList.add(ingredient);
             }

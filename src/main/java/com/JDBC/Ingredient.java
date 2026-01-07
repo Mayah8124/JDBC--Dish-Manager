@@ -1,5 +1,6 @@
 package com.JDBC;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Ingredient {
@@ -53,7 +54,7 @@ public class Ingredient {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

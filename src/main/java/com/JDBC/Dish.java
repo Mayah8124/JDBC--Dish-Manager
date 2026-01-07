@@ -11,9 +11,10 @@ public class Dish {
     private DishTypeEnum dishType;
     private List<Ingredient> ingredients;
 
-    public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredients) {
+    public Dish(int id, String name, DishTypeEnum dishType,BigDecimal price, List<Ingredient> ingredients) {
         this.dishType = dishType;
         this.name = name;
+        this.price = price;
         this.ingredients = ingredients;
         this.id = id;
     }
@@ -28,6 +29,14 @@ public class Dish {
 
     public String getName() {
         return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public void setName(String name) {
@@ -77,4 +86,5 @@ public class Dish {
                                                         .mapToDouble(Ingredient::getPrice)
                                                         .sum();
     }
+
 }
