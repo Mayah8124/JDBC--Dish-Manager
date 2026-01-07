@@ -1,3 +1,5 @@
+\c mini_dish_db;
+
 CREATE TYPE category AS ENUM ('VEGETABLE', 'ANIMAL' , 'MARINE' , 'DAIRY', 'OTHER');
 
 CREATE TYPE dish_type AS ENUM ('START', 'MAIN', 'DESSERT');

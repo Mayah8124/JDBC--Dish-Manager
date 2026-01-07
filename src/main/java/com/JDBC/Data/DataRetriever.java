@@ -3,6 +3,7 @@ package com.JDBC.Data;
 import com.JDBC.*;
 import com.JDBC.Connection.DBConnection;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -117,9 +118,9 @@ public class DataRetriever {
 
                     insertStmnt.setInt(1, ingredient.getId());
                     insertStmnt.setString(2, ingredient.getName());
-                    insertStmnt.setBigDecimal(3, ingredient.getPrice());
-                    insertStmnt.setString(4, ingredient.getCategory());
-                    insertStmnt.setInt(5, ingredient.getDish());
+                    insertStmnt.setBigDecimal(3, BigDecimal.valueOf(ingredient.getPrice()));
+                    insertStmnt.setString(4, String.valueOf(ingredient.getCategory()));
+                    insertStmnt.setInt(5, ingredient.getDish().getId());
 
                     insertStmnt.executeUpdate();
                 }

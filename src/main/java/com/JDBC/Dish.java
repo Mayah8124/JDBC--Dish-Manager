@@ -70,7 +70,7 @@ public class Dish {
                 '}';
     }
 
-    public Double getDishPrice() {
+    public Double getDishCost() {
         return ingredients == null ? null : ingredients.stream()
                                                         .mapToDouble(Ingredient::getPrice)
                                                         .sum();
