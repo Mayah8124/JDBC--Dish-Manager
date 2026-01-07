@@ -87,4 +87,11 @@ public class Dish {
                                                         .sum();
     }
 
+    public Double getGrossMargin() {
+        if (price==null) {
+            throw new RuntimeException("price should not be null");
+        }
+        else
+            return price.doubleValue() - getDishCost();
+    }
 }
