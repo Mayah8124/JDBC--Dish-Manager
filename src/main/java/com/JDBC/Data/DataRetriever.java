@@ -19,6 +19,7 @@ public class DataRetriever {
                 SELECT d.id AS dish_id,
                        d.name AS dish_name,
                        d.dish_type AS dish_type,
+                       d.price AS dish_price,
                        i.id AS ingredient_id,
                        i.name AS ingredient_name,
                        i.category AS ingredient_category
@@ -39,6 +40,7 @@ public class DataRetriever {
                         int dish_id = rs.getInt("dish_id");
                         String dish_name = rs.getString("dish_name");
                         String dish_type = rs.getString("dish_type");
+                        Number dish_price = rs.getBigDecimal("dish_price");
                         int ingredient_id = rs.getInt("ingredient_id");
                         String ingredient_nom = rs.getString("ingredient_nom");
                         int ingredient_category = rs.getInt("ingredient_category");
@@ -187,11 +189,11 @@ public class DataRetriever {
                 if (!exists) {
                     insertStmnt.setInt(1, dishToSave.getId());
                     insertStmnt.setString(2, dishToSave.getName());
-                    insertStmnt.setString(3, dishToSave.getDishType());
+                    insertStmnt.setString(3, String.valueOf(dishToSave.getDishType()));
                     insertStmnt.executeUpdate();
                 } else {
                     updateStmnt.setString(1, dishToSave.getName());
-                    updateStmnt.setString(2, dishToSave.getDishType());
+                    updateStmnt.setString(2, String.valueOf(dishToSave.getDishType()));
                     updateStmnt.setInt(3, dishToSave.getId());
                     updateStmnt.executeUpdate();
                 }

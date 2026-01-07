@@ -20,6 +20,25 @@ CREATE TABLE Dish (
                       dish_type dish_type NOT NULL
 );
 
+ALTER TABLE Dish ADD COLUMN price NUMERIC(10,2);
+
+UPDATE Dish
+    SET price = 2000
+    WHERE name = 'Salade fraiche';
+
+UPDATE Dish
+    SET price = 6000
+    WHERE name = 'Poulet grillé';
+
+UPDATE Dish
+    SET price = NULL
+    WHERE name IN (
+               'Riz aux légumes',
+               'Gateau au chocolat',
+               'Salade de fruit'
+    );
+
+
 INSERT INTO Dish (id, name , dish_type) VALUES
     (1, 'Salade fraiche', 'START'),
     ('2','Poulet grillé', 'MAIN'),

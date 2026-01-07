@@ -1,11 +1,13 @@
 package com.JDBC;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 public class Dish {
     private int id;
     private String name;
+    private BigDecimal price;
     private DishTypeEnum dishType;
     private List<Ingredient> ingredients;
 
