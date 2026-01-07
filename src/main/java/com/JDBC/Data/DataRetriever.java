@@ -244,7 +244,7 @@ public class DataRetriever {
                 Dish dish = new Dish();
                 dish.setId(rs.getInt("dish_id"));
                 dish.setName(rs.getString("dish_name"));
-                dish.setDishType(rs.getString("dish_type"));
+                dish.setDishType(DishTypeEnum.valueOf(rs.getString("dish_type")));
 
                 dishList.add(dish);
             }
@@ -303,7 +303,7 @@ public class DataRetriever {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setId(rs.getInt("id"));
                 ingredient.setName(rs.getString("name"));
-                ingredient.setPrice(rs.getBigDecimal("price"));
+                ingredient.setPrice(rs.getDouble("price"));
                 ingredient.setCategory(CategoryEnum.valueOf(rs.getString("category")));
 
                 ingredientList.add(ingredient);

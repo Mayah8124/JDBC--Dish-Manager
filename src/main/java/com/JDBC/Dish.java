@@ -7,15 +7,14 @@ import java.util.Objects;
 public class Dish {
     private int id;
     private String name;
-    private BigDecimal price;
+    private Double price;
     private DishTypeEnum dishType;
     private List<Ingredient> ingredients;
 
-    public Dish(int id, String name, DishTypeEnum dishType,BigDecimal price, List<Ingredient> ingredients) {
+    public Dish(int id, String name, DishTypeEnum dishType, double price) {
         this.dishType = dishType;
         this.name = name;
         this.price = price;
-        this.ingredients = ingredients;
         this.id = id;
     }
 
@@ -31,11 +30,11 @@ public class Dish {
         return name;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
