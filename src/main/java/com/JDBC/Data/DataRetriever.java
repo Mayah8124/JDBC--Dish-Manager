@@ -106,7 +106,7 @@ public class DataRetriever {
             try (
                     PreparedStatement checkStmnt = conn.prepareStatement(checkIngredientSQL);
                     PreparedStatement insertStmnt = conn.prepareStatement(insertNewIngredientSQL)
-                    ) {
+            ) {
                 for (Ingredient ingredient : newIngredients) {
                     checkStmnt.setString(1, ingredient.getName());
                     checkStmnt.setInt(2, ingredient.getId());
@@ -179,7 +179,7 @@ public class DataRetriever {
                     PreparedStatement updateStmnt = conn.prepareStatement(updateDishSQL);
                     PreparedStatement dissociateStmnt = conn.prepareStatement(dissociateIngredientSQL);
                     PreparedStatement associateStmnt = conn.prepareStatement(associateIngredientSQL)
-                    ) {
+            ) {
                 checkStmnt.setInt(1, dishToSave.getId());
                 ResultSet rs = checkStmnt.executeQuery();
                 rs.next();
@@ -235,7 +235,7 @@ public class DataRetriever {
                 """;
 
         try (Connection conn = dbConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1,"%" + ingredientName + "%");
 
             ResultSet rs = ps.executeQuery();
@@ -292,7 +292,7 @@ public class DataRetriever {
         params.add(page * size);
 
         try (Connection conn = dbConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
                 ps.setObject(1 + 1, params.get(i));
             }

@@ -1,6 +1,5 @@
 package com.JDBC;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +15,9 @@ public class Dish {
         this.name = name;
         this.price = price;
         this.id = id;
+    }
+
+    public Dish() {
     }
 
     public DishTypeEnum getDishType() {

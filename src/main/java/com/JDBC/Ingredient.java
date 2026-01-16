@@ -1,6 +1,5 @@
 package com.JDBC;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Ingredient {
@@ -16,6 +15,9 @@ public class Ingredient {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    public Ingredient() {
     }
 
     public CategoryEnum getCategory() {
