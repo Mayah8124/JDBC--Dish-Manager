@@ -6,7 +6,7 @@ values (1, 'Salaide fraîche', 'STARTER'),
        (5, 'Salade de fruits', 'DESSERT');
 
 
-insert into ingredient (id, name, category, price, id_dish)
+insert into ingredient (id, name, category, price, dish_id)
 values (1, 'Laitue', 'VEGETABLE', 800.0, 1),
        (2, 'Tomate', 'VEGETABLE', 600.0, 1),
        (3, 'Poulet', 'ANIMAL', 4500.0, 2),
