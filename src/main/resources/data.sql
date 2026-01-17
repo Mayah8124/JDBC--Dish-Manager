@@ -27,3 +27,23 @@ insert into dishingredient (id, id_dish, id_ingredient, quantity_required, unit)
            (3 , 2 , 3, 1.00, 'KG'),
            (4 , 4 , 4, 0.30,'KG'),
            (5,4,5,0.20, 'KG');
+
+update dish
+set selling_price = 3500.0
+where id = 1;
+
+update dish
+set selling_price = 12000.0
+where id = 2;
+
+update dish
+set selling_price = NULL
+where id = 2;
+
+update dish
+set selling_price = 8000.0
+where id = 4;
+
+update dish
+set selling_price = NULL
+where id = 5;
