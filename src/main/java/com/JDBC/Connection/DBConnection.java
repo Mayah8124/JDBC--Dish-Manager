@@ -3,30 +3,23 @@ package com.JDBC.Connection;
 import java.sql.*;
 
 public class DBConnection {
-    public Connection getConnection() throws SQLException {
-
-        Connection connection = null;
-
-        String url = System.getenv("JDBC_URL");
-        String username = System.getenv("USERNAME");
-        String password = System.getenv("PASSWORD");
-
+    public Connection getConnection() {
         try {
-            connection = DriverManager.getConnection(url, username, password);
+            String jdbcURl = System.getenv("JDBC_URl"); //
+            String user = System.getenv("USER"); //mini_dish_db_manager
+            String password = System.getenv("PASSWORD"); //123456
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/mini_dish_db", "postgres", "nekoko");
         } catch (SQLException e) {
-            System.err.println("Error while connecting : " + e.getMessage());
+            throw new RuntimeException(e);
         }
-
-        return connection;
     }
 
     public void closeConnection(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Connection closed successfully");
             } catch (SQLException e) {
-                System.err.println("Error while closing connexion : " + e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }
