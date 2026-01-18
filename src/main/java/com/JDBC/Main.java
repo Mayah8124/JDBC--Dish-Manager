@@ -7,10 +7,12 @@ public class Main {
     public static void main(String[] args) {
         // Log before changes
         DataRetriever dataRetriever = new DataRetriever();
-        Dish dish = dataRetriever.findDishById(4
+        Dish dish = dataRetriever.findDishById(3);
+        Double cost = dish.getDishCost();
+        double margin = dish.getGrossMargin();
 
-        );
-        System.out.println(dish);
+        System.out.println(dish +"\nTotal cost of the ingredients : " + cost + "\nMargin cost : " + margin);
+
 
         // Log after changes
 //        dish.setIngredients(List.of(new Ingredient(1), new Ingredient(2)));
