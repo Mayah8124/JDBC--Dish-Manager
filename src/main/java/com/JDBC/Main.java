@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         // Log before changes
         DataRetriever dataRetriever = new DataRetriever();
-        Dish dish = dataRetriever.findDishById(3);
+        Dish dish = dataRetriever.findDishById(4);
         Double cost = dish.getDishCost();
         double margin = dish.getGrossMargin();
 

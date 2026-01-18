@@ -12,47 +12,54 @@ public class DataRetriever {
     private List<DishIngredient> findDishIngredientsByDishId(Connection conn, Integer dishId)
             throws SQLException {
 
-        String sql = """
-        SELECT di.id,
-               di.quantity_required,
-               di.unit,
-               i.id   AS ingredient_id,
-               i.name,
-               i.price,
-               i.category
+        final String sql = """
+        SELECT
+            di.id                 AS dish_ingredient_id,
+            di.quantity_required,
+            di.unit,
+            i.id                  AS ingredient_id,
+            i.name                AS ingredient_name,
+            i.price               AS ingredient_price,
+            i.category            AS ingredient_category
         FROM dish_ingredient di
         JOIN ingredient i ON i.id = di.id_ingredient
         WHERE di.id_dish = ?
     """;
 
-        List<DishIngredient> result = new ArrayList<>();
+        List<DishIngredient> dishIngredients = new ArrayList<>();
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, dishId);
-            ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                Ingredient ingredient = new Ingredient(
-                        rs.getInt("ingredient_id"),
-                        rs.getString("name"),
-                        CategoryEnum.valueOf(rs.getString("category")),
-                        rs.getDouble("price")
-                );
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
 
-                DishIngredient di = new DishIngredient();
-                di.setId(rs.getInt("id"));
-                di.setIngredient(ingredient);
-                di.setQuantity_required(
-                        rs.getObject("quantity_required") == null
-                                ? null
-                                : rs.getDouble("quantity_required")
-                );
-                di.setUnit(UnitType.valueOf(rs.getString("unit")));
+                    Ingredient ingredient = new Ingredient(
+                            rs.getInt("ingredient_id"),
+                            rs.getString("ingredient_name"),
+                            CategoryEnum.valueOf(rs.getString("ingredient_category")),
+                            rs.getDouble("ingredient_price")
+                    );
 
-                result.add(di);
+                    DishIngredient dishIngredient = new DishIngredient();
+                    dishIngredient.setId(rs.getInt("dish_ingredient_id"));
+                    dishIngredient.setIngredient(ingredient);
+
+                    Double quantityRequired = rs.getDouble("quantity_required");
+                    dishIngredient.setQuantity_required(
+                            rs.wasNull() ? null : quantityRequired
+                    );
+
+                    dishIngredient.setUnit(
+                            UnitType.valueOf(rs.getString("unit"))
+                    );
+
+                    dishIngredients.add(dishIngredient);
+                }
             }
         }
-        return result;
+
+        return dishIngredients;
     }
 
 

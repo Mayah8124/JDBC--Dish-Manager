@@ -99,6 +99,9 @@ public class Dish {
     }
 
     public Double getGrossMargin() {
+        if (price == null) {
+            throw new RuntimeException("Price is null");
+        }
         return price - getDishCost();
     }
 }
