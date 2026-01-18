@@ -1,5 +1,6 @@
 package com.JDBC;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Ingredient {
@@ -7,16 +8,7 @@ public class Ingredient {
     private String name;
     private CategoryEnum category;
     private Double price;
-    private Dish dish;
-    private Double quantity;
-
-    public Double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
-    }
+    private List<DishIngredient> dishIngredients;
 
     public Ingredient() {
     }
@@ -32,8 +24,12 @@ public class Ingredient {
         this.price = price;
     }
 
-    public String getDishName() {
-        return dish == null ? null : dish.getName();
+    public List<DishIngredient> getDishIngredients() {
+        return dishIngredients;
+    }
+
+    public void setDishIngredients(List<DishIngredient> dishIngredients) {
+        this.dishIngredients = dishIngredients;
     }
 
     public Integer getId() {
@@ -68,24 +64,16 @@ public class Ingredient {
         this.price = price;
     }
 
-    public Dish getDish() {
-        return dish;
-    }
-
-    public void setDish(Dish dish) {
-        this.dish = dish;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && category == that.category && Objects.equals(price, that.price) && Objects.equals(dish, that.dish);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && category == that.category && Objects.equals(price, that.price) && Objects.equals(dishIngredients, that.dishIngredients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, category, price, dish);
+        return Objects.hash(id, name, category, price, dishIngredients);
     }
 
     @Override
@@ -95,8 +83,6 @@ public class Ingredient {
                 ", name='" + name + '\'' +
                 ", category=" + category +
                 ", price=" + price +
-                ", dishName=" + getDishName() +
-                ", quantity=" + quantity +
                 '}';
     }
 }

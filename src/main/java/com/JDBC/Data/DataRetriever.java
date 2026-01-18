@@ -18,7 +18,7 @@ public class DataRetriever {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     """
-                            select dish.id as dish_id, dish.name as dish_name, dish_type, dish.price as dish_price
+                            select dish.id as dish_id, dish.name as dish_name, dish_type, dish.selling_price as dish_price
                             from dish
                             where dish.id = ?;
                             """);
@@ -43,7 +43,7 @@ public class DataRetriever {
 
     Dish saveDish(Dish toSave) {
         String upsertDishSql = """
-                    INSERT INTO dish (id, price, name, dish_type)
+                    INSERT INTO dish (id, selling_price, name, dish_type)
                     VALUES (?, ?, ?, ?::dish_type)
                     ON CONFLICT (id) DO UPDATE
                     SET name = EXCLUDED.name,
@@ -139,7 +139,7 @@ public class DataRetriever {
             throws SQLException {
         if (ingredients == null || ingredients.isEmpty()) {
             try (PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE ingredient SET id_dish = NULL WHERE id_dish = ?")) {
+                    "UPDATE ingredient SET dish_id = NULL WHERE dish_id = ?")) {
                 ps.setInt(1, dishId);
                 ps.executeUpdate();
             }
@@ -177,7 +177,7 @@ public class DataRetriever {
 
         String attachSql = """
                     UPDATE ingredient
-                    SET id_dish = ?
+                    SET dish_id = ?
                     WHERE id = ?
                 """;
 
@@ -199,7 +199,7 @@ public class DataRetriever {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     """
                             select ingredient.id, ingredient.name, ingredient.price, ingredient.category, ingredient.required_quantity
-                            from ingredient where id_dish = ?;
+                            from ingredient where dish_id = ?;
                             """);
             preparedStatement.setInt(1, idDish);
             ResultSet resultSet = preparedStatement.executeQuery();
