@@ -13,3 +13,5 @@ CREATE TYPE unit_type AS ENUM ('KG' , 'L' , 'PCS');
 
 alter table dish
     rename column price to selling_price;
+
+alter table DishIngredient rename  to dish_ingredient;
