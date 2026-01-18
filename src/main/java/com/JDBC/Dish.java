@@ -21,10 +21,13 @@ public class Dish {
     public Double getDishCost() {
         double totalPrice = 0;
         for (DishIngredient di : dishIngredients) {
-            if (di.getQuantity_required() == null || di.getIngredient() == null ) {
+            if (di.getQuantity_required() == null || di.getIngredient() == null) {
                 throw new RuntimeException("DishIngredient not initialized correctly");
             }
             Double ingredientPrice = di.getIngredient().getPrice();
+            if (ingredientPrice == null) {
+                throw new RuntimeException("Ingredient price should not be null");
+            }
             totalPrice += ingredientPrice * di.getQuantity_required();
         }
         return totalPrice;
