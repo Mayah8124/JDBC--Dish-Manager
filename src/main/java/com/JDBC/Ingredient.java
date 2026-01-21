@@ -89,5 +89,9 @@ public class Ingredient {
                 '}';
     }
 
-
+    List<StockMouvement> getStockMouvements(Timestamp t) {
+        return stockMouvements.stream()
+                .filter(stockMouvement -> stockMouvement.getStockDate().getTime() == t.getTime())
+                .collect(Collectors.toList());
+    }
 }

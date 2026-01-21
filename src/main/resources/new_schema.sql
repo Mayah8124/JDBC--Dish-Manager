@@ -17,3 +17,5 @@ alter table dish
 alter table DishIngredient rename  to dish_ingredient;
 
 alter table ingredient drop column dish_id;
+
+
