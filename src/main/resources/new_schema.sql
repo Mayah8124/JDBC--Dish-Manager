@@ -18,4 +18,10 @@ alter table DishIngredient rename  to dish_ingredient;
 
 alter table ingredient drop column dish_id;
 
-
+CREATE TABLE stock_mouvement (
+    id serial primary key ,
+    id_ingredient int references ingredient(id) ,
+    quantity int ,
+    unit unit_type ,
+    stock_date timestamp
+)
