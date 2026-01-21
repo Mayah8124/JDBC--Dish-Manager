@@ -1,7 +1,9 @@
 package com.JDBC;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Ingredient {
     private Integer id;
@@ -9,6 +11,7 @@ public class Ingredient {
     private CategoryEnum category;
     private Double price;
     private List<DishIngredient> dishIngredients;
+    private List<StockMouvement> stockMouvements;
 
     public Ingredient() {
     }
@@ -85,4 +88,6 @@ public class Ingredient {
                 ", price=" + price +
                 '}';
     }
+
+
 }
