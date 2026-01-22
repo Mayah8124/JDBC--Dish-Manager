@@ -11,7 +11,7 @@ public class Ingredient {
     private CategoryEnum category;
     private Double price;
     private List<DishIngredient> dishIngredients;
-    private List<StockMouvement> stockMouvements;
+    private List<StockMovement> stockMovementList;
 
     public Ingredient() {
     }
@@ -67,6 +67,8 @@ public class Ingredient {
         this.price = price;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -89,9 +91,9 @@ public class Ingredient {
                 '}';
     }
 
-    List<StockMouvement> getStockMouvements(Timestamp t) {
-        return stockMouvements.stream()
-                .filter(stockMouvement -> stockMouvement.getStockDate().getTime() == t.getTime())
+    public List<StockMovement> getStockValueAt(Timestamp t) {
+        return stockMovementList.stream()
+                .filter(stockMovement -> stockMovement.getCreation_date().getTime() == t.getTime())
                 .collect(Collectors.toList());
     }
 }

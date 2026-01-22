@@ -24,4 +24,8 @@ CREATE TABLE stock_mouvement (
     quantity int ,
     unit unit_type ,
     stock_date timestamp
-)
+);
+
+create type mouvement_type as enum ('IN' , 'OUT');
+
+alter table stock_mouvement add column type mouvement_type;
