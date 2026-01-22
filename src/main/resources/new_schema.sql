@@ -18,14 +18,13 @@ alter table DishIngredient rename  to dish_ingredient;
 
 alter table ingredient drop column dish_id;
 
-CREATE TABLE stock_mouvement (
+create type movement_type as enum ('IN' , 'OUT');
+
+CREATE TABLE stock_movement (
     id serial primary key ,
     id_ingredient int references ingredient(id) ,
-    quantity int ,
+    quantity numeric ,
+    type movement_type ,
     unit unit_type ,
-    stock_date timestamp
+    creation_datetime timestamp
 );
-
-create type mouvement_type as enum ('IN' , 'OUT');
-
-alter table stock_mouvement add column type mouvement_type;
