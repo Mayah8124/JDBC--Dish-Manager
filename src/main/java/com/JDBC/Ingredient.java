@@ -67,7 +67,13 @@ public class Ingredient {
         this.price = price;
     }
 
+    public List<StockMovement> getStockMovementList() {
+        return stockMovementList;
+    }
 
+    public void setStockMovementList(List<StockMovement> stockMovementList) {
+        this.stockMovementList = stockMovementList;
+    }
 
     @Override
     public boolean equals(Object o) {
