@@ -3,16 +3,14 @@ package com.JDBC;
 import java.util.Objects;
 
 public class DishOrder {
-    private Integer id;
+    private int id;
     private Dish dish;
     private Integer quantity;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public DishOrder(Dish dish, int id, Integer quantity) {
+        this.dish = dish;
         this.id = id;
+        this.quantity = quantity;
     }
 
     public Dish getDish() {
@@ -23,6 +21,14 @@ public class DishOrder {
         this.dish = dish;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -31,11 +37,11 @@ public class DishOrder {
         this.quantity = quantity;
     }
 
-
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof DishOrder dishOrder)) return false;
-        return Objects.equals(id, dishOrder.id) && Objects.equals(dish, dishOrder.dish) && Objects.equals(quantity, dishOrder.quantity);
+        if (o == null || getClass() != o.getClass()) return false;
+        DishOrder dishOrder = (DishOrder) o;
+        return id == dishOrder.id && Objects.equals(dish, dishOrder.dish) && Objects.equals(quantity, dishOrder.quantity);
     }
 
     @Override
@@ -46,9 +52,9 @@ public class DishOrder {
     @Override
     public String toString() {
         return "DishOrder{" +
-                "id=" + id +
-                ", dish=" + dish +
-                ", quantity=" + quantity +
+                "id= " + id +
+                ", dish= " + dish +
+                ", quantity= " + quantity +
                 '}';
     }
 }

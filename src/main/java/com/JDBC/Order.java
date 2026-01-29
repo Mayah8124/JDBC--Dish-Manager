@@ -1,21 +1,53 @@
 package com.JDBC;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
 
 public class Order {
-    private Integer id;
+    private int id;
     private String reference;
-    private Instant creationDatetime;
+    private Timestamp creationDatetime;
     private Double vatRate;
-    private List<DishOrder> dishOrderList;
+    private List<DishOrder> dishOrders;
 
-    public Integer getId() {
+    public Order(Timestamp creationDatetime, List<DishOrder> dishOrders, int id, Double vatRate, String reference) {
+        this.creationDatetime = creationDatetime;
+        this.dishOrders = dishOrders;
+        this.id = id;
+        this.reference = reference;
+    }
+
+    public Double getVatRate() {
+        return vatRate;
+    }
+
+    public void setVatRate(Double vatRate) {
+        this.vatRate = vatRate;
+    }
+
+    public Timestamp getCreationDatetime() {
+        return creationDatetime;
+    }
+
+    public void setCreationDatetime(Timestamp creationDatetime) {
+        this.creationDatetime = creationDatetime;
+    }
+
+    public List<DishOrder> getDishOrders() {
+        return dishOrders;
+    }
+
+    public void setDishOrders(List<DishOrder> dishOrders) {
+        this.dishOrders = dishOrders;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -27,67 +59,44 @@ public class Order {
         this.reference = reference;
     }
 
-    public Instant getCreationDatetime() {
-        return creationDatetime;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && Objects.equals(reference, order.reference) && Objects.equals(creationDatetime, order.creationDatetime) && Objects.equals(vatRate, order.vatRate) && Objects.equals(dishOrders, order.dishOrders);
     }
 
-    public void setCreationDatetime(Instant creationDatetime) {
-        this.creationDatetime = creationDatetime;
-    }
-
-    public List<DishOrder> getDishOrderList() {
-        return dishOrderList;
-    }
-
-    public void setDishOrderList(List<DishOrder> dishOrderList) {
-        this.dishOrderList = dishOrderList;
-    }
-
-    public Double getVatRate() {
-        return vatRate;
-    }
-
-    public void setVatRate(Double vatRate) {
-        this.vatRate = vatRate;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, reference, creationDatetime, vatRate, dishOrders);
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", reference='" + reference + '\'' +
-                ", creationDatetime=" + creationDatetime +
-                ", dishOrderList=" + dishOrderList +
+                "id= " + id +
+                ", reference= '" + reference + '\'' +
+                ", creationDatetime= " + creationDatetime +
                 ", vatRate= " + vatRate +
+                ", dishOrders= " + dishOrders +
                 '}';
     }
 
-    Double getTotalAmountWithoutVat() {
-        if (dishOrderList == null || dishOrderList.isEmpty()) {
+    public Double getTotalAmountWithoutVAT() {
+        if (dishOrders.isEmpty()) {
             return 0.0;
         }
 
-        return dishOrderList.stream()
-                .mapToDouble(dishOrder -> dishOrder.getDish().getPrice() * dishOrder.getQuantity())
-                .sum();
+        return dishOrders.stream()
+                        .mapToDouble(dishOrders -> dishOrders.getDish().getPrice() * dishOrders.getQuantity())
+                        .sum();
     }
 
-    Double getTotalAmountWithVat() {
+    public Double getTotalAmountWithVAT() {
         if (vatRate == null) {
             throw new IllegalStateException("VAT rate is not defined");
         }
-        return getTotalAmountWithoutVat() * (1 + vatRate);
-    }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Order order)) return false;
-        return Objects.equals(id, order.id) && Objects.equals(reference, order.reference) && Objects.equals(creationDatetime, order.creationDatetime) && Objects.equals(dishOrderList, order.dishOrderList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, reference, creationDatetime, dishOrderList);
+        return getTotalAmountWithoutVAT() * (1 + vatRate);
     }
 }

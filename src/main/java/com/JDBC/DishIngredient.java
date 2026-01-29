@@ -21,11 +21,11 @@ public class DishIngredient {
 
     }
 
-    public Dish getDish() {
+    public Dish getDish_id() {
         return dish;
     }
 
-    public void setDish(Dish dish_id) {
+    public void setDish_id(Dish dish_id) {
         this.dish = dish_id;
     }
 
@@ -45,11 +45,11 @@ public class DishIngredient {
         this.ingredient = ingredient;
     }
 
-    public Double getQuantity() {
+    public Double getQuantity_required() {
         return quantity_required;
     }
 
-    public void setQuantity(double quantity_required) {
+    public void setQuantity_required(double quantity_required) {
         this.quantity_required = quantity_required;
     }
 
