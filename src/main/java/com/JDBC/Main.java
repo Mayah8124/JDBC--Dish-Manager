@@ -1,38 +1,29 @@
 package com.JDBC;
 
 import com.JDBC.Data.DataRetriever;
-import com.JDBC.Dish;
-
-import java.sql.Timestamp;
 
 public class Main {
     public static void main(String[] args) {
-        // Log before changes
-
         DataRetriever dataRetriever = new DataRetriever();
+        Dish saladeVerte = dataRetriever.findDishById(1);
+        System.out.println(saladeVerte);
 
-        //Dish dish = dataRetriever.findDishById(4);
-        //Double cost = dish.getDishCost();
-        //double margin = dish.getGrossMargin();
-        //System.out.println(dish +"\nTotal cost of the ingredients : " + cost + "\nMargin cost : " + margin);
+        Dish poulet = dataRetriever.findDishById(2);
+        System.out.println(poulet);
 
-        Timestamp t = Timestamp.valueOf("2024-01-06 12:00:00");
+        Dish rizLegume = dataRetriever.findDishById(3);
+        rizLegume.setPrice(100.0);
+        Dish newRizLegume = dataRetriever.saveDish(rizLegume);
+        System.out.println(newRizLegume); // Should not throw exception
 
-        System.out.println("=== STOCK LEVELS AT " + t + " ===");
-        System.out.println("Ingredient 1 : "
-                + dataRetriever.getStockValueAt(4, t) + " KG");
-        System.out.println("Ingredient 4 : "
-                + dataRetriever.getStockValueAt(5, t) + " KG");
-        System.out.println("Ingredient 5 : "
-                + dataRetriever.getStockValueAt(3, t) + " KG");
 
-        // Log after changes
-//        dish.setIngredients(List.of(new Ingredient(1), new Ingredient(2)));
-//        Dish newDish = dataRetriever.saveDish(dish);
-//        System.out.println(newDish);
+//        Dish rizLegumeAgain = dataRetriever.findDishById(3);
+//        rizLegumeAgain.setPrice(null);
+//        Dish savedNewRizLegume = dataRetriever.saveDish(rizLegume);
+//        System.out.println(savedNewRizLegume); // Should throw exception
 
-        // Ingredient creations
-        //List<Ingredient> createdIngredients = dataRetriever.createIngredients(List.of(new Ingredient(null, "Fromage", CategoryEnum.DAIRY, 1200.0)));
-        //System.out.println(createdIngredients);
+        Ingredient laitue = dataRetriever.findIngredientById(1);
+        System.out.println(laitue);
+
     }
 }

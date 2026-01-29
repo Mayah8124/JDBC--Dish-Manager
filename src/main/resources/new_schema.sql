@@ -1,7 +1,7 @@
 ALTER TABLE ingredient
     ADD CONSTRAINT ingredient_pk PRIMARY KEY (id);
 
-CREATE TABLE DishIngredient (
+CREATE TABLE dish_ingredient (
     id serial primary key ,
     id_dish int references dish(id),
     id_ingredient int references ingredient(id),
@@ -13,8 +13,6 @@ CREATE TYPE unit_type AS ENUM ('KG' , 'L' , 'PCS');
 
 alter table dish
     rename column price to selling_price;
-
-alter table DishIngredient rename  to dish_ingredient;
 
 alter table ingredient drop column dish_id;
 
