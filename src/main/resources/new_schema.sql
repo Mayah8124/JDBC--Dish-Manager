@@ -29,9 +29,9 @@ CREATE TABLE stock_movement (
     creation_datetime timestamp
 );
 
-CREATE TABLE orders (
-    id serial primary key ,
-    reference varchar(8) ,
+CREATE TABLE orders(
+    id                serial primary key,
+    reference         varchar(8),
     creation_datetime timestamp
 );
 
@@ -40,4 +40,17 @@ CREATE TABLE dishOrder (
     id_order int references orders(id),
     id_dish int references dish(id),
     quantity int
+);
+
+CREATE TABLE "table" (
+    id int primary key not null ,
+    number int not null unique
+);
+
+CREATE TABLE table_orders
+(
+    table_id       int  references "table"(id) NOT NULL,
+    order_id int references orders(id) NOT NULL ,
+    arrival_date   TIMESTAMP without time zone ,
+    departure_date TIMESTAMP without time zone
 );

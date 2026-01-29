@@ -4,6 +4,7 @@ import com.JDBC.*;
 import com.JDBC.Connection.DBConnection;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -619,5 +620,94 @@ public class DataRetriever {
         }
     }
 
+    public boolean isAvailable(Connection conn, int tableId, Instant arrival, Instant departure)
+            throws SQLException {
+
+        String sql = """
+        SELECT 1
+        FROM orders
+        WHERE table_id = ?
+          AND arrival_datetime < ?
+          AND departure_datetime > ?
+        LIMIT 1
+    """;
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, tableId);
+            ps.setTimestamp(2, Timestamp.from(departure));
+            ps.setTimestamp(3, Timestamp.from(arrival));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return !rs.next();
+            }
+        }
+    }
+
+    public List<TableOrder> findTableOrdersByTableId(
+            Connection conn,
+            Table table
+    ) throws SQLException {
+
+        String sql = """
+        SELECT arrival_datetime, departure_datetime
+        FROM orders
+        WHERE table_id = ?
+    """;
+
+        List<TableOrder> orders = new ArrayList<>();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, table.getId());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    TableOrder tableOrder = new TableOrder();
+                    tableOrder.setTable(table);
+                    tableOrder.setArrivalDatetime(
+                            rs.getTimestamp("arrival_datetime").toInstant()
+                    );
+                    tableOrder.setDepartureDatetime(
+                            rs.getTimestamp("departure_datetime").toInstant()
+                    );
+
+                    orders.add(tableOrder);
+                }
+            }
+        }
+
+        return orders;
+    }
+
+    public List<Table> findAllTablesWithOrders(Connection conn) throws SQLException {
+
+        String sql = """
+        SELECT id, numero_table
+        FROM restaurant_table
+        ORDER BY numero_table
+    """;
+
+        List<Table> tables = new ArrayList<>();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                Table table = new Table();
+                table.setId(rs.getInt("id"));
+                table.setNumber(rs.getInt("numero_table"));
+
+                List<TableOrder> tableOrders =
+                        findTableOrdersByTableId(conn, table);
+
+                table.setOrderList();
+
+                tables.add(table);
+            }
+        }
+
+        return tables;
+    }
 
 }

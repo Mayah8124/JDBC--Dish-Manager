@@ -1,9 +1,9 @@
 package com.JDBC;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
 
 public class Order {
     private int id;
@@ -11,6 +11,10 @@ public class Order {
     private Timestamp creationDatetime;
     private Double vatRate;
     private List<DishOrder> dishOrders;
+    private TableOrder table;
+
+    public Order() {
+    }
 
     public Order(Timestamp creationDatetime, List<DishOrder> dishOrders, int id, Double vatRate, String reference) {
         this.creationDatetime = creationDatetime;
@@ -59,6 +63,14 @@ public class Order {
         this.reference = reference;
     }
 
+    public TableOrder getTable() {
+        return table;
+    }
+
+    public void setTable(TableOrder table) {
+        this.table = table;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -92,11 +104,4 @@ public class Order {
                         .sum();
     }
 
-    public Double getTotalAmountWithVAT() {
-        if (vatRate == null) {
-            throw new IllegalStateException("VAT rate is not defined");
-        }
-
-        return getTotalAmountWithoutVAT() * (1 + vatRate);
-    }
 }
