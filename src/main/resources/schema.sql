@@ -14,7 +14,7 @@ create table ingredient
 (
     id       serial primary key,
     name     varchar(255),
-    price    numeric(10, 2),
+    selling_price    numeric(10, 2),
     category ingredient_category,
     id_dish  int references dish (id)
 );

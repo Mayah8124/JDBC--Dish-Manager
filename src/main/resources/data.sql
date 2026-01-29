@@ -14,11 +14,11 @@ values (1, 'Laitue', 'VEGETABLE', 800.0, 1),
        (5, 'Beurre', 'DAIRY', 2500.0, 4);
 
 update dish
-set price = 2000.0
+set selling_price = 2000.0
 where id = 1;
 
 update dish
-set price = 6000.0
+set selling_price = 6000.0
 where id = 2;
 
 insert into dish_ingredient (id, id_dish, id_ingredient, quantity_required, unit)
